@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "bet-maker"
+version = "0.1.0"
+description = ""
+authors = ["Каверович Данила Геннадьевич"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.6"
+uvicorn = "^0.34.0"
+sqlalchemy = "^2.0.37"
+asyncpg = "^0.30.0"
+psycopg2-binary = "^2.9.10"
+pydantic = "^2.10.5"
+aiohttp = "^3.11.11"
+pytest = "^8.3.4"
+pytest-asyncio = "^0.25.2"
+python-dotenv = "^1.0.1"
+pydantic-settings = "^2.7.1"
+alembic = "^1.14.1"
+aio-pika = "^9.5.4"
+httpx = "^0.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

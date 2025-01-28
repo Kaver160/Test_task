@@ -1,0 +1,67 @@
+version: '3.3'
+
+services:
+  line-provider:
+    build:
+      context: ./line_provider
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./line_provider/.env
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  bet-maker:
+    build:
+      context: bet_maker
+      dockerfile: Dockerfile
+    command: sh
+    ports:
+      - "8000:8000"
+    env_file:
+      - bet_maker/.env
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - LINE_PROVIDER_URL=http://line-provider:8001
+      - POSTGRES_HOST=postgres
+    depends_on:
+      - rabbitmq
+      - line-provider
+      - postgres
+    volumes:
+      - ./bet_maker:/src
+    networks:
+      - mynetwork
+
+  rabbitmq:
+    image: rabbitmq:4.0.5-management-alpine
+    ports:
+      - "15673:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  postgres:
+    image: postgres:17
+    env_file:
+      - bet_maker/.env
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+

@@ -1,0 +1,20 @@
+# Python files
+*.py[cod]
+__pycache__/
+*.so
+
+# Virtual environment
+venv/
+env/
+.build/
+
+# Poetry related files
+poetry.lock
+.pipfile
+
+# IDE/Editor files
+.idea/
+*.swp
+*.swo
+*.orig
+*.bak

@@ -38,4 +38,3 @@ async def update_bet_status(event_id: str,
             bet.status = BetaStatus.PENDING
 
     await db.commit()
-

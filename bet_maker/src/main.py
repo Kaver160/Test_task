@@ -1,10 +1,8 @@
 import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, Query
-from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from src.database import get_db
 from src.rabbitmq import consume_messages
 from src.schemas import CreateBeta, Bets, Event
 from src.services.beta_services import BetaService

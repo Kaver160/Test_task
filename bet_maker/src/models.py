@@ -11,5 +11,3 @@ class Beta(Base):
     amount: Mapped[float] = mapped_column(nullable=False)
     status: Mapped[str] = mapped_column(default='pending')
     created_at: Mapped[datetime] = mapped_column(default=datetime.now())
-
-

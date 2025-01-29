@@ -20,5 +20,3 @@ class BetaService:
 
     async def update_bet_status(self, event_id: str, status: EventStatus):
         return await self.bet_repository.update_bet_status(event_id, status)
-
-

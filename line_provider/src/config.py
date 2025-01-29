@@ -2,8 +2,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    # PROJECT_NAME: str = 'Line Provider'
-    # PROJECT_VERSION: str = '1.0.0'
+    PROJECT_NAME: str = 'Line Provider'
+    PROJECT_VERSION: str = '1.0.0'
 
     RABBITMQ_USER: str
     RABBITMQ_PASSWORD: str

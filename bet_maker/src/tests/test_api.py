@@ -2,8 +2,34 @@ import pytest
 from dotenv import load_dotenv
 from httpx import AsyncClient, ASGITransport
 from fastapi import status
+from aioresponses import aioresponses
+
+from src.config import settings
+
 load_dotenv()
 from src.main import app
+
+data_events = {'1': {
+    "id": "1",
+    "coefficient": "1.2",
+    "deadline": "2025-01-31T11:55:18.952060",
+    "status": "unfinished"
+},
+    '2':
+        {
+            "id": "2",
+            "coefficient": "1.15",
+            "deadline": "2025-02-03T11:55:18.952111",
+            "status": "unfinished"
+        },
+    '3':
+        {
+            "id": "3",
+            "coefficient": "1.67",
+            "deadline": "2025-02-05T11:55:18.952125",
+            "status": "unfinished"
+        }
+}
 
 
 @pytest.fixture
@@ -15,16 +41,19 @@ async def async_client():
 
 @pytest.mark.asyncio
 async def test_get_events(async_client):
-    response = await async_client.get("/events")
-    assert response.status_code == 200
-    assert isinstance(response.json(), list)
+    external_api_url = f'{settings.line_provider_url}/events'
+    with aioresponses() as m:
+        m.get(external_api_url, payload=data_events, status=200)
+        response = await async_client.get("/events")
+        assert response.status_code == 200
+        assert isinstance(response.json(), list)
 
 
 @pytest.mark.asyncio
 async def test_create_bet(async_client):
     bet_data = {
         "event_id": "1",
-        "amount": '100'
+        "amount": 100.0
     }
     response = await async_client.post("/beta", json=bet_data)
     assert response.status_code == status.HTTP_201_CREATED
@@ -36,8 +65,8 @@ async def test_create_bet(async_client):
 @pytest.mark.asyncio
 async def test_read_bets(async_client):
     bet_data = {
-        "event_id": "1",
-        "amount": 100.0,
+        "event_id": "34",
+        "amount": 232.0,
         "status": "pending"
     }
     # Предварительное создание ставки
